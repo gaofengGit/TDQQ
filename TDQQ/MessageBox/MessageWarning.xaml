@@ -1,0 +1,41 @@
+﻿<Window x:Class="TDQQ.MessageBox.MessageWarning"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+               Title="MessageWarning"  Height="130" Width="280" WindowStyle="None" ResizeMode="NoResize"
+        x:Name="main" AllowsTransparency="True" WindowStartupLocation="CenterScreen" Background="#FFA4A4A4">
+    <Window.Triggers>
+        <EventTrigger RoutedEvent="Window.Loaded" >
+            <BeginStoryboard>
+                <Storyboard Name="sbOpShow">
+                    <DoubleAnimation
+                    Storyboard.TargetName="main" 
+                    Storyboard.TargetProperty="Opacity" 
+                    From="0" To="1" Duration="0:0:0.15"/>
+                </Storyboard>
+            </BeginStoryboard>
+        </EventTrigger>
+    </Window.Triggers>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="70"/>
+            <RowDefinition Height="35"/>
+        </Grid.RowDefinitions>
+        <Border Grid.Row="0" Height="25" Width="{Binding ElementName=main, Path=Width,UpdateSourceTrigger=PropertyChanged}" 
+                    BorderThickness="0,0,0,1" BorderBrush="#FFEFE2E2">
+            <TextBlock x:Name="lblTitle" Text="test" HorizontalAlignment="Left" 
+                           Foreground="Black" FontSize="14"
+                           VerticalAlignment="Center" Margin="5"/>
+        </Border>
+        <StackPanel Grid.Row="1" Orientation="Horizontal">
+            <Image Source="/Image/Warning.png" Margin="5,10,10,10" />
+            <TextBlock x:Name="lblMsg"  Foreground="White" FontSize="14"  TextWrapping="Wrap" Text="test" Margin="5,0,0,0"
+                       HorizontalAlignment="Center" VerticalAlignment="Center" />
+        </StackPanel>
+        <StackPanel Grid.Row="2" Orientation="Horizontal" >
+            <Border BorderBrush="#FF60C1C1" BorderThickness="0.5" Height="22" HorizontalAlignment="Center" Width="50" Margin="200,-15,0,0" Background="#FFC7C7C7" CornerRadius="2" MouseLeftButtonDown="Yes_MouseLeftButtonDown">
+                <TextBlock Text="确定" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="15" Cursor="Hand"/>
+            </Border>
+        </StackPanel>
+    </Grid>
+</Window>

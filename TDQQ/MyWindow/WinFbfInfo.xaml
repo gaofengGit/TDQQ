@@ -1,0 +1,203 @@
+﻿<Window x:Class="TDQQ.MyWindow.WinFbfInfo"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+         WindowStartupLocation="CenterScreen" WindowStyle="None" ResizeMode="NoResize"
+        Background="Transparent" AllowsTransparency="True" Height="350" Width="650">
+    <Window.Resources>
+        <Style x:Key="roundTextBox" TargetType="{x:Type TextBox}">
+            <Setter Property="KeyboardNavigation.TabNavigation" Value="None" />
+            <Setter Property="AllowDrop" Value="true" />
+            <Setter Property="Background" Value="Transparent"></Setter>
+            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+            <Setter Property="VerticalContentAlignment" Value="Stretch" />
+            <Setter Property="FontFamily" Value="Segoe UI" />
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="Padding" Value="8,5,3,3" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type TextBox}">
+                        <Grid>
+                            <Border x:Name="BorderBase" Background="White" BorderThickness="1.4,1.4,1,1" 
+                            BorderBrush="Silver" CornerRadius="3" />
+                            <Label x:Name="TextPrompt" Content="{TemplateBinding Tag}" Visibility="Collapsed" Focusable="False"  Foreground="Silver"></Label>
+                            <ScrollViewer Margin="0" x:Name="PART_ContentHost" Foreground="{DynamicResource OutsideFontColor}" />
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <MultiTrigger>
+                                <MultiTrigger.Conditions>
+                                    <Condition Property="IsFocused" Value="False"></Condition>
+                                    <Condition Property="Text" Value=""></Condition>
+                                </MultiTrigger.Conditions>
+                                <MultiTrigger.Setters>
+                                    <Setter Property="Visibility" TargetName="TextPrompt" Value="Visible"></Setter>
+                                </MultiTrigger.Setters>
+                            </MultiTrigger>
+                            <Trigger Property="IsFocused" Value="True">
+                                <Setter Property="BorderThickness" TargetName="BorderBase" Value="2.4,2.4,1,1"></Setter>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Foreground" Value="DimGray" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="RadioButton" TargetType="{x:Type Button}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Grid>
+                            <Ellipse x:Name="ellipse" Stroke="#FF414343">
+                                <Ellipse.Fill>
+                                    <LinearGradientBrush EndPoint="0.443,1.22" StartPoint="0.5,0">
+                                        <LinearGradientBrush.RelativeTransform>
+                                            <TransformGroup>
+                                                <ScaleTransform CenterX="0.5" CenterY="0.5"/>
+                                                <SkewTransform CenterX="0.5" CenterY="0.5"/>
+                                                <RotateTransform Angle="-52.415" CenterX="0.5" CenterY="0.5"/>
+                                                <TranslateTransform/>
+                                            </TransformGroup>
+                                        </LinearGradientBrush.RelativeTransform>
+                                        <GradientStop Color="#FF434040" Offset="0"/>
+                                        <GradientStop Color="White" Offset="1"/>
+                                    </LinearGradientBrush>
+                                </Ellipse.Fill>
+                            </Ellipse>
+                            <Ellipse Stroke="{x:Null}" Margin="5.333,4.928" RenderTransformOrigin="0.5,0.5">
+                                <Ellipse.Fill>
+                                    <LinearGradientBrush EndPoint="0.563,-0.397" StartPoint="0.406,1.322">
+                                        <LinearGradientBrush.RelativeTransform>
+                                            <TransformGroup>
+                                                <ScaleTransform CenterX="0.5" CenterY="0.5" ScaleX="-1" ScaleY="-1"/>
+                                                <SkewTransform AngleX="0" AngleY="0" CenterX="0.5" CenterY="0.5"/>
+                                                <RotateTransform Angle="-52.415" CenterX="0.5" CenterY="0.5"/>
+                                                <TranslateTransform/>
+                                            </TransformGroup>
+                                        </LinearGradientBrush.RelativeTransform>
+                                        <GradientStop Color="#FF434040" Offset="1"/>
+                                        <GradientStop Color="White"/>
+                                    </LinearGradientBrush>
+                                </Ellipse.Fill>
+                            </Ellipse>
+                            <ContentPresenter x:Name="contentPresenter" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" RecognizesAccessKey="True"/>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsFocused" Value="True"/>
+                            <Trigger Property="IsDefaulted" Value="True"/>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Stroke" TargetName="ellipse" Value="Gray"/>
+                                <Setter Property="StrokeThickness" TargetName="ellipse" Value="1.5"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Fill" TargetName="ellipse">
+                                    <Setter.Value>
+                                        <LinearGradientBrush EndPoint="0.443,1.22" StartPoint="0.5,0">
+                                            <LinearGradientBrush.RelativeTransform>
+                                                <TransformGroup>
+                                                    <ScaleTransform CenterX="0.5" CenterY="0.5"/>
+                                                    <SkewTransform CenterX="0.5" CenterY="0.5"/>
+                                                    <RotateTransform Angle="-52.415" CenterX="0.5" CenterY="0.5"/>
+                                                    <TranslateTransform/>
+                                                </TransformGroup>
+                                            </LinearGradientBrush.RelativeTransform>
+                                            <GradientStop Color="#FF434040" Offset="1"/>
+                                            <GradientStop Color="White" Offset="0"/>
+                                        </LinearGradientBrush>
+                                    </Setter.Value>
+                                </Setter>
+                                <Setter Property="Margin" TargetName="contentPresenter" Value="5,5,0,0"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False"/>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="1.1*"/>
+        </Grid.RowDefinitions>
+        <Border CornerRadius="10" Grid.RowSpan="6" >
+            <Border.Background>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                    <GradientStop Color="LightGray" Offset="0.1"/>
+                    <GradientStop Color="DarkGray" Offset="0.9"/>
+                </LinearGradientBrush>
+            </Border.Background>
+        </Border>
+        <Image Source="/Image/cancel.png" Grid.Row="0" 
+               HorizontalAlignment="Right" Margin="3" Name="ImageClose" Cursor="Hand"/>
+        <Label Content="发包方信息录入" FontSize="16" Grid.Row="1" 
+               VerticalAlignment="Top" HorizontalAlignment="Center"  FontFamily="微软雅黑" FontWeight="Bold"/>
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
+                <Label Content="发包方名称*"/>
+                <TextBox Style="{StaticResource roundTextBox}" Tag="×县×镇×村村民委员会" Margin="0,0,0,0" Width="140" Name="TextBoxFbfmc"/>
+            </StackPanel>
+            <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
+                <Label Content="发包方编码*"/>
+                <TextBox Style="{StaticResource roundTextBox}" Tag="14位编码(行政村)" Margin="5,0,0,0" Width="120" Name="TextBoxFbfbm"/>
+            </StackPanel>
+            <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
+                <Label Content="负责人姓名"/>
+                <TextBox Style="{StaticResource roundTextBox}" Tag="姓名" Margin="5,0,0,0" Width="100" Name="TextBoxFbffzrxm"/>
+            </StackPanel>
+        </Grid>
+        <Grid Grid.Row="3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center" Orientation="Horizontal">
+                <Label Content="联系电话"/>
+                <TextBox Style="{StaticResource roundTextBox}" Margin="5,0,0,0" Width="100" Tag="电话" Name="TextBoxLxdh"/>
+            </StackPanel>
+            <StackPanel Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Orientation="Horizontal">
+                <Label Content="发包方地址*"/>
+                <TextBox Style="{StaticResource roundTextBox}" Margin="5,0,0,0" Width="100" Tag="地址" Name="TextBoxFbfdz"/>
+            </StackPanel>
+            <StackPanel Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center" Orientation="Horizontal">
+                <Label Content="邮政编码"/>
+                <TextBox Style="{StaticResource roundTextBox}" Margin="5,0,0,0" Width="100" Tag="邮政编码" Name="TextBoxYzbm"/>
+            </StackPanel>
+        </Grid>
+        <Grid Grid.Row="4">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center" Orientation="Horizontal">
+                <Label Content="负责人证件类型"/>
+                <ComboBox Margin="5,0,0,0" Cursor="Hand" Width="140" Name="ComboBoxZjlx" SelectedIndex="0">
+                    <ComboBoxItem Cursor="Hand">(1)居民身份证</ComboBoxItem>
+                    <ComboBoxItem Cursor="Hand">(2)军官证</ComboBoxItem>
+                    <ComboBoxItem Cursor="Hand">(3)行政、企事业单位机构代码证或法人代码证</ComboBoxItem>
+                    <ComboBoxItem Cursor="Hand">(4)户口簿</ComboBoxItem>
+                    <ComboBoxItem Cursor="Hand">(5)护照</ComboBoxItem>
+                    <ComboBoxItem Cursor="Hand">(6)其他证件</ComboBoxItem>
+                </ComboBox>
+            </StackPanel>
+            <StackPanel Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Orientation="Horizontal">
+                <Label Content="证件号码"></Label>
+                <TextBox Style="{StaticResource roundTextBox}" Width="150" Margin="5,0,0,0" Name="TextBoxZjhm"/>
+            </StackPanel>
+        </Grid>
+        <Grid Grid.Row="5">
+            <Button Content="保存" Style="{DynamicResource RadioButton}" Width="60" Height="60" FontSize="18" Cursor="Hand" Name="ButtonConfirm"/>
+        </Grid>
+    </Grid>
+</Window>

@@ -1,0 +1,22 @@
+﻿<Window x:Class="TDQQ.MyWindow.Wait"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:myWindow="clr-namespace:TDQQ.MyWindow"
+        Title="Wait" Height="240" Width="320" WindowStyle="None" Background="Transparent" WindowStartupLocation="CenterScreen" ResizeMode="NoResize"
+        AllowsTransparency="True">
+    <Grid>
+        <Border CornerRadius="10" >
+            <Border.Background>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                    <GradientStop Color="LightGray" Offset="0.1"/>
+                    <GradientStop Color="DarkGray" Offset="0.9"/>
+                </LinearGradientBrush>
+            </Border.Background>
+        </Border>
+        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Orientation="Vertical">
+            <Label  Content="正在进行某项操作" FontSize="20" FontWeight="Bold" Name="LabelInfo" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            <Label Content="1/10" HorizontalAlignment="Center" Margin="0,10,0,0" FontSize="18" Name="LabelProgress" VerticalAlignment="Top" HorizontalContentAlignment="Center"/>
+            <myWindow:UserWait  Height="100" Width="100" Margin="0,14,0,0"></myWindow:UserWait>
+        </StackPanel>
+    </Grid>
+</Window>

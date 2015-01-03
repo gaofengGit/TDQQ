@@ -1,0 +1,194 @@
+﻿<Window x:Class="TDQQ.MyWindow.WinPointEdit"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="WinPointEdit" Height="350" Width="440" WindowStyle="None"  Background="Transparent"
+        AllowsTransparency="True" ResizeMode="NoResize">
+    <Window.Resources>
+        <Style x:Key="RadioButton" TargetType="{x:Type Button}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Grid>
+                            <Ellipse x:Name="ellipse" Stroke="#FF414343">
+                                <Ellipse.Fill>
+                                    <LinearGradientBrush EndPoint="0.443,1.22" StartPoint="0.5,0">
+                                        <LinearGradientBrush.RelativeTransform>
+                                            <TransformGroup>
+                                                <ScaleTransform CenterX="0.5" CenterY="0.5"/>
+                                                <SkewTransform CenterX="0.5" CenterY="0.5"/>
+                                                <RotateTransform Angle="-52.415" CenterX="0.5" CenterY="0.5"/>
+                                                <TranslateTransform/>
+                                            </TransformGroup>
+                                        </LinearGradientBrush.RelativeTransform>
+                                        <GradientStop Color="#FF434040" Offset="0"/>
+                                        <GradientStop Color="White" Offset="1"/>
+                                    </LinearGradientBrush>
+                                </Ellipse.Fill>
+                            </Ellipse>
+                            <Ellipse Stroke="{x:Null}" Margin="5.333,4.928" RenderTransformOrigin="0.5,0.5">
+                                <Ellipse.Fill>
+                                    <LinearGradientBrush EndPoint="0.563,-0.397" StartPoint="0.406,1.322">
+                                        <LinearGradientBrush.RelativeTransform>
+                                            <TransformGroup>
+                                                <ScaleTransform CenterX="0.5" CenterY="0.5" ScaleX="-1" ScaleY="-1"/>
+                                                <SkewTransform AngleX="0" AngleY="0" CenterX="0.5" CenterY="0.5"/>
+                                                <RotateTransform Angle="-52.415" CenterX="0.5" CenterY="0.5"/>
+                                                <TranslateTransform/>
+                                            </TransformGroup>
+                                        </LinearGradientBrush.RelativeTransform>
+                                        <GradientStop Color="#FF434040" Offset="1"/>
+                                        <GradientStop Color="White"/>
+                                    </LinearGradientBrush>
+                                </Ellipse.Fill>
+                            </Ellipse>
+                            <ContentPresenter x:Name="contentPresenter" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" RecognizesAccessKey="True"/>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsFocused" Value="True"/>
+                            <Trigger Property="IsDefaulted" Value="True"/>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Stroke" TargetName="ellipse" Value="Gray"/>
+                                <Setter Property="StrokeThickness" TargetName="ellipse" Value="1.5"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Fill" TargetName="ellipse">
+                                    <Setter.Value>
+                                        <LinearGradientBrush EndPoint="0.443,1.22" StartPoint="0.5,0">
+                                            <LinearGradientBrush.RelativeTransform>
+                                                <TransformGroup>
+                                                    <ScaleTransform CenterX="0.5" CenterY="0.5"/>
+                                                    <SkewTransform CenterX="0.5" CenterY="0.5"/>
+                                                    <RotateTransform Angle="-52.415" CenterX="0.5" CenterY="0.5"/>
+                                                    <TranslateTransform/>
+                                                </TransformGroup>
+                                            </LinearGradientBrush.RelativeTransform>
+                                            <GradientStop Color="#FF434040" Offset="1"/>
+                                            <GradientStop Color="White" Offset="0"/>
+                                        </LinearGradientBrush>
+                                    </Setter.Value>
+                                </Setter>
+                                <Setter Property="Margin" TargetName="contentPresenter" Value="5,5,0,0"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False"/>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Border CornerRadius="10" Grid.RowSpan="4" >
+            <Border.Background>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                    <GradientStop Color="LightGray" Offset="0.1"/>
+                    <GradientStop Color="DarkGray" Offset="0.9"/>
+                </LinearGradientBrush>
+            </Border.Background>
+        </Border>
+        <Label Grid.Row="0" Cursor="Hand" Width="440" Height="30" Name="LabelMove"/>
+        <Image Source="/Image/cancel.png" Grid.Row="0" 
+               HorizontalAlignment="Right" Margin="3" Name="ImageClose" Cursor="Hand"/>
+        <Label Content="地块编辑" FontSize="18" Grid.Row="1" 
+               VerticalAlignment="Top" HorizontalAlignment="Center"  FontFamily="微软雅黑" FontWeight="Bold"/>
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Border Grid.Column="0" Background="Transparent" BorderBrush="Wheat" BorderThickness="1" Margin="5" CornerRadius="3">
+                <Grid Grid.Column="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Label Content="基本信息" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Bold"/>
+                    <StackPanel Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" Orientation="Horizontal">
+                        <Label Content="承包方名称"/>
+                        <TextBox Margin="1,0,0,0" Height="20" Width="135" Name="TextBoxCbfmc" />
+                    </StackPanel>
+                    <StackPanel Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Center" Orientation="Horizontal">
+                        <Label Content="承包方编码"/>
+                        <TextBox Margin="1,0,0,0" Height="20" Width="135" IsReadOnly="True" IsEnabled="False" Name="TextBoxCbfbm" FontSize="10"/>
+                    </StackPanel>
+                    <StackPanel Grid.Row="3" VerticalAlignment="Center" HorizontalAlignment="Center" Orientation="Horizontal">
+                        <Label Content="地块名称"/>
+                        <TextBox Margin="10,0,0,0" Height="20" Width="135" Name="TextBoxDkmc"/>
+                    </StackPanel>
+                    <StackPanel Grid.Row="4" VerticalAlignment="Center" HorizontalAlignment="Center" Orientation="Horizontal">
+                        <Label Content="地块编码"/>
+                        <TextBox Margin="10,0,0,0" Height="20" Width="135" IsReadOnly="True" IsEnabled="False" Name="TextBoxDkbm" FontSize="10"/>
+                    </StackPanel>
+                </Grid>
+            </Border>
+            <Border Grid.Column="1" Background="Transparent" BorderBrush="Wheat" BorderThickness="1" Margin="5" CornerRadius="3">
+                <Grid Grid.Column="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Label Content="四至信息" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Bold"/>
+                    <StackPanel Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" Orientation="Horizontal">
+                        <Label Content="地块东至"/>
+                        <TextBox Margin="10,0,0,0" Height="20" Width="100" Name="TextBoxDkdz"/>
+                    </StackPanel>
+                    <StackPanel Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Center" Orientation="Horizontal">
+                        <Label Content="地块南至"/>
+                        <TextBox Margin="10,0,0,0" Height="20" Width="100" Name="TextBoxDknz"/>
+                    </StackPanel>
+                    <StackPanel Grid.Row="3" VerticalAlignment="Center" HorizontalAlignment="Center" Orientation="Horizontal">
+                        <Label Content="地块西至"/>
+                        <TextBox Margin="10,0,0,0" Height="20" Width="100" Name="TextBoxDkxz"/>
+                    </StackPanel>
+                    <StackPanel Grid.Row="4" VerticalAlignment="Center" HorizontalAlignment="Center" Orientation="Horizontal">
+                        <Label Content="地块北至"/>
+                        <TextBox Margin="10,0,0,0" Height="20" Width="100" Name="TextBoxDkbz"/>
+                    </StackPanel>
+                </Grid>
+            </Border>
+
+        </Grid>
+        <Grid Grid.Row="3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Border Grid.Column="0" Background="Transparent" BorderBrush="Wheat" BorderThickness="1" Margin="5" CornerRadius="3">
+                <Grid Grid.Column="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Label Content="面积信息" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Bold"/>
+                    <StackPanel Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" Orientation="Horizontal">
+                        <Label Content="原合同面积"/>
+                        <TextBox Margin="5,0,0,0" Height="20" Width="100" Name="TextBoxYhtmj"/>
+                    </StackPanel>
+                    <StackPanel Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Center" Orientation="Horizontal">
+                        <Label Content="合同面积"/>
+                        <TextBox Margin="14,0,0,0" Height="20" Width="100" Name="TextBoxHtmj"/>
+                    </StackPanel>
+                    <StackPanel Grid.Row="3" VerticalAlignment="Center" HorizontalAlignment="Center" Orientation="Horizontal">
+                        <Label Content="实测面积"/>
+                        <TextBox Margin="14,0,0,0" Height="20" Width="100" IsReadOnly="True" IsEnabled="False" Name="TextBoxScmj"/>
+                    </StackPanel>
+                </Grid>
+            </Border>
+            <Button Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Width="60" Height="60" 
+                    Content="保存"  Style="{DynamicResource RadioButton}"  FontSize="22" Cursor="Hand" Name="ButtonSave"/>
+        </Grid>
+    </Grid>
+</Window>

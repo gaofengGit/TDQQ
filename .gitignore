@@ -26,3 +26,9 @@
 *.exe
 *.out
 *.app
+
+# CSharp
+*.sln
+*.csproj
+*.vshost
+*.exe
