@@ -176,14 +176,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="TDQQ.exe" size="1111040">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="TDQQ.exe" size="1120768">
       <assemblyIdentity name="TDQQ" version="2.1.0.0" language="neutral" processorArchitecture="x86" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-        <dsig:DigestValue>W08OR2J+hP8AWtpYGOtNgNEJxy8=</dsig:DigestValue>
+        <dsig:DigestValue>JV625XPXbxX7eTDiuWPrjvVCZLg=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

@@ -51,7 +51,7 @@ namespace TDQQ
             InitTabs();
         }
 
-       
+
         /// <summary>
         /// 根据字段值，设置按钮是否可用
         /// </summary>
@@ -96,8 +96,9 @@ namespace TDQQ
                 this.ButtonImportFbf.IsEnabled = false;
                 this.ButtonSetHtmj.IsEnabled = false;
                 this.ButtonDkbm.IsEnabled = false;
-            //    this.ButtonCounty.IsEnabled = false;
+                //    this.ButtonCounty.IsEnabled = false;
                 this.ButtonDepartment.IsEnabled = false;
+                this.ButtonSetScmj.IsEnabled = false;
             }
             else
             {
@@ -137,8 +138,9 @@ namespace TDQQ
                 this.ButtonImportFbf.IsEnabled = true;
                 this.ButtonSetHtmj.IsEnabled = true;
                 this.ButtonDkbm.IsEnabled = true;
-            //    this.ButtonCounty.IsEnabled = true;
+                //    this.ButtonCounty.IsEnabled = true;
                 this.ButtonDepartment.IsEnabled = true;
+                this.ButtonSetScmj.IsEnabled = true;
             }
         }
 
@@ -157,23 +159,23 @@ namespace TDQQ
 
         private void InitDataTab()
         {
-            LoadData loadData=new LoadData();
+            LoadData loadData = new LoadData();
             this.ButtonOpenMap.Click += (object sender, RoutedEventArgs e) =>
             {
-                
-                loadData.LoadMap(ref _personDatabase, ref _selectFeaure,ref _basicDatabase, _mainMapControl.Map);
+
+                loadData.LoadMap(ref _personDatabase, ref _selectFeaure, ref _basicDatabase, _mainMapControl.Map);
                 StateCheck();
             };
             //this.ButtonOpenBasic.Click += (object sender, RoutedEventArgs e) =>
             //{
-                
+
             //    loadData.OpenBasicDatabase(ref _basicDatabase);
             //    StateCheck();
             //};
             this.ButtonCloseMap.Click +=
                 (object sender, RoutedEventArgs e) =>
                 {
-                   
+
                     loadData.CloseMap(ref _personDatabase, ref _selectFeaure, ref _basicDatabase, _mainMapControl.Map);
                     StateCheck();
                 };
@@ -192,8 +194,8 @@ namespace TDQQ
                         MessageBox.MessageInfomation.Show("系统提示", error);
                     else
                         MessageBox.MessageWarning.Show("系统提示", error);
-                }         
-               
+                }
+
             };
             this.ButtonDefault.Click += (object sender, RoutedEventArgs e) =>
             {
@@ -227,7 +229,7 @@ namespace TDQQ
             };
             this.ButtonUpdateCbfbm.Click += (object sender, RoutedEventArgs e) =>
             {
-                var ret = editData.UnpdateCbfbm(_personDatabase, _selectFeaure,_basicDatabase);
+                var ret = editData.UnpdateCbfbm(_personDatabase, _selectFeaure, _basicDatabase);
                 if (ret)
                     MessageBox.MessageInfomation.Show("系统提示", "承包方编码提取成功");
                 else
@@ -241,6 +243,14 @@ namespace TDQQ
                 else
                     MessageBox.MessageWarning.Show("系统提示", "合同面积设置失败");
             };
+            this.ButtonSetScmj.Click += (object sender, RoutedEventArgs e) =>
+            {
+                var ret = editData.SetScmj(_personDatabase, _selectFeaure);
+                if (ret)
+                    MessageBox.MessageInfomation.Show("系统提示", "实测面积设置成功");
+                else
+                    MessageBox.MessageWarning.Show("系统提示", "实测面积设置失败");
+            };
             this.ButtonUpdateCbfmc.Click += (object sender, RoutedEventArgs e) =>
             {
                 var ret = editData.ReplaceCbfmc(_personDatabase, _selectFeaure);
@@ -248,27 +258,27 @@ namespace TDQQ
                 {
                     MessageBox.MessageInfomation.Show("系统提示", "承包方名称替换成功");
                     System.Diagnostics.Process.Start(AppDomain.CurrentDomain.BaseDirectory + @"\Log\logfile.txt");
-                }                   
+                }
                 else
                     MessageBox.MessageWarning.Show("系统提示", "承包方名称替换失败");
-                
+
             };
             this.ButtonChangeCbfmc.Click += (object sender, RoutedEventArgs e) =>
             {
-                var ret = editData.ChangeNotCbfmc(_personDatabase, _selectFeaure,_basicDatabase);
+                var ret = editData.ChangeNotCbfmc(_personDatabase, _selectFeaure, _basicDatabase);
                 if (ret)
                 {
                     MessageBox.MessageInfomation.Show("系统提示", "非承包方修改成功");
                     System.Diagnostics.Process.Start(AppDomain.CurrentDomain.BaseDirectory + @"\Log\logfile.txt");
                 }
-                    
+
                 else
                     MessageBox.MessageWarning.Show("系统提示", "非承包方修改失败");
-                
+
             };
             this.ButtonDkbm.Click += (object sender, RoutedEventArgs e) =>
             {
-                var ret = editData.SortDkbm(_personDatabase, _selectFeaure);
+                var ret = editData.SetDkbm(_personDatabase, _selectFeaure);
                 if (ret)
                 {
                     MessageBox.MessageInfomation.Show("系统提示", "地块编码成功");
@@ -287,18 +297,18 @@ namespace TDQQ
                 WinFieldsInfo winFieldsInfo = new WinFieldsInfo(_mainMapControl.Map, _personDatabase, _selectFeaure);
                 winFieldsInfo.Owner = this;
                 winFieldsInfo.Show();
-               // winFieldsInfo.Topmost = true;
+                // winFieldsInfo.Topmost = true;
             };
             this.ButtonFarmer.Click += (object sender, RoutedEventArgs e) =>
             {
                 WinFarmerInfo winFarmerInfo = new WinFarmerInfo(_personDatabase, _selectFeaure, _mainMapControl.Map);
                 winFarmerInfo.Owner = this;
                 winFarmerInfo.Show();
-               // winFarmerInfo.Topmost = true;
+                // winFarmerInfo.Topmost = true;
             };
             this.ButtonArea.Click += (object sender, RoutedEventArgs e) =>
             {
-                SearchInfo searchInfo=new SearchInfo();
+                SearchInfo searchInfo = new SearchInfo();
                 searchInfo.AreaInfo(_personDatabase, _selectFeaure);
             };
         }
@@ -333,11 +343,11 @@ namespace TDQQ
 
         private void InitMap()
         {
-            EditMap editMap=new EditMap();
+            EditMap editMap = new EditMap();
             this._mainMapControl.OnMouseDown += (object sender, IMapControlEvents2_OnMouseDownEvent e) =>
             {
 
-                if (e.button==4)
+                if (e.button == 4)
                 {
                     _mainMapControl.MousePointer = esriControlsMousePointer.esriPointerHand;
                     this._mainMapControl.Pan();
@@ -347,7 +357,7 @@ namespace TDQQ
                 this._mainMapControl.MousePointer = esriControlsMousePointer.esriPointerDefault;
                 if (_isPointEdit)
                 {
-                   
+
                     this._mainMapControl.MousePointer = esriControlsMousePointer.esriPointerHand;
                     IPoint pPoint = new PointClass();
                     pPoint.PutCoords(e.mapX, e.mapY);
@@ -381,11 +391,11 @@ namespace TDQQ
                         else
                         {
                             MessageWarning.Show("系统提示", "更新失败！");
-                        }                   
+                        }
                     }
                 }
             };
-            
+
         }
 
         private void InitExportMap()
@@ -402,7 +412,7 @@ namespace TDQQ
             };
             this.ButtonBTable.Click += (object sender, RoutedEventArgs e) =>
             {
-                
+
                 var export = new ExportB(_personDatabase, _selectFeaure, _basicDatabase);
                 var ret = export.Export();
                 if (ret)
@@ -412,7 +422,7 @@ namespace TDQQ
             };
             this.ButtonCTable.Click += (object sender, RoutedEventArgs e) =>
             {
-                
+
                 var export = new ExportC(_personDatabase, _selectFeaure, _basicDatabase);
                 var ret = export.Export();
                 if (ret)
@@ -422,7 +432,7 @@ namespace TDQQ
             };
             this.ButtonDTable.Click += (object sender, RoutedEventArgs e) =>
             {
-               
+
                 var export = new ExportD(_personDatabase, _selectFeaure, _basicDatabase);
                 var ret = export.Export();
                 if (ret)
@@ -432,7 +442,7 @@ namespace TDQQ
             };
             this.ButtonETable.Click += (object sender, RoutedEventArgs e) =>
             {
-                
+
                 var export = new ExportE(_personDatabase, _selectFeaure, _basicDatabase);
                 var ret = export.Export();
                 if (ret)
@@ -442,7 +452,7 @@ namespace TDQQ
             };
             this.ButtonOpenTable.Click += (object sender, RoutedEventArgs e) =>
             {
-                
+
                 var export = new ExportOpen(_personDatabase, _selectFeaure, _basicDatabase);
                 var ret = export.Export();
                 if (ret)
@@ -452,7 +462,7 @@ namespace TDQQ
             };
             this.ButtonSignTable.Click += (object sender, RoutedEventArgs e) =>
             {
-                
+
                 var export = new ExportSign(_personDatabase, _selectFeaure, _basicDatabase);
                 var ret = export.Export();
                 if (ret)
@@ -462,7 +472,7 @@ namespace TDQQ
             };
             this.ButtonContract.Click += (object sender, RoutedEventArgs e) =>
             {
-                
+
                 var exportContract = new ExportContract(_personDatabase, _selectFeaure, _basicDatabase);
                 var ret = exportContract.Export();
                 if (ret)
@@ -472,7 +482,7 @@ namespace TDQQ
             };
             this.ButtonCertification.Click += (object sender, RoutedEventArgs e) =>
             {
-                
+
                 var exportCertification = new ExportCertification(_personDatabase, _selectFeaure, _basicDatabase);
                 var ret = exportCertification.Export();
                 if (ret)
@@ -482,7 +492,7 @@ namespace TDQQ
             };
             this.ButtonFamily.Click += (object sender, RoutedEventArgs e) =>
             {
-                
+
                 var exportFamily = new ExportFamily(_personDatabase, _selectFeaure, _basicDatabase);
                 var ret = exportFamily.Export();
                 if (ret)
@@ -492,7 +502,7 @@ namespace TDQQ
             };
             this.ButtonList.Click += (object sender, RoutedEventArgs e) =>
             {
-                
+
                 var exportList = new ExportList(_personDatabase, _selectFeaure, _basicDatabase);
                 var ret = exportList.Export();
                 if (ret)
@@ -502,7 +512,7 @@ namespace TDQQ
             };
             this.ButtonRegister.Click += (object sender, RoutedEventArgs e) =>
             {
-                
+
                 var exportRegister = new ExportRegister(_personDatabase, _selectFeaure, _basicDatabase);
                 var ret = exportRegister.Export();
                 if (ret)
@@ -526,12 +536,12 @@ namespace TDQQ
         {
             this.ButtonCbfbm.Click += (object sender, RoutedEventArgs e) =>
             {
-                WinCbfbm winCbfbm=new WinCbfbm();
+                WinCbfbm winCbfbm = new WinCbfbm();
                 winCbfbm.ShowDialog();
             };
             this.ButtonImportBasic.Click += (object sender, RoutedEventArgs e) =>
             {
-                ImportCbfjtcy importCbfjtcy=new ImportCbfjtcy(_basicDatabase);
+                ImportCbfjtcy importCbfjtcy = new ImportCbfjtcy(_basicDatabase);
                 var ret = importCbfjtcy.Import();
                 if (ret)
                 {
@@ -578,7 +588,7 @@ namespace TDQQ
         {
             this.ButtonHelp.Click += (object sender, RoutedEventArgs e) => System.Diagnostics.
                 Process.Start(AppDomain.CurrentDomain.BaseDirectory + @"\TDQQ.chm");
-          
+
         }
 
     }

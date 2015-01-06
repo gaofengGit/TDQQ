@@ -120,3 +120,5 @@ H:\TDQQ\TDQQ\obj\Debug\TDQQ.csproj.GenerateResource.Cache
 H:\TDQQ\TDQQ\obj\Debug\TDQQ.TrustInfo.xml
 H:\TDQQ\TDQQ\obj\Debug\TDQQ.exe.manifest
 H:\TDQQ\TDQQ\obj\Debug\TDQQ.application
+H:\TDQQ\TDQQ\obj\Debug\MyWindow\WinFbfbm.baml
+H:\TDQQ\TDQQ\obj\Debug\MyWindow\WinFbfbm.g.cs

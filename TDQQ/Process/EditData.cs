@@ -6,6 +6,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
+using ESRI.ArcGIS.Carto;
 using ESRI.ArcGIS.Geodatabase;
 using ESRI.ArcGIS.Geometry;
 using TDQQ.AE;
@@ -20,7 +21,7 @@ namespace TDQQ.Process
     class EditData
     {
         #region 编辑字段
-        public bool EditFields(string personDatabase, string selectFeature,ref string error)
+        public bool EditFields(string personDatabase, string selectFeature, ref string error)
         {
             if (!FieldTypeCheck(personDatabase, selectFeature))
             {
@@ -69,7 +70,7 @@ namespace TDQQ.Process
         }
         private bool DeleteFields(string personDatabase, string selectFeature)
         {
-            IAeFactory pAeFactory=new PersonalGeoDatabase(personDatabase);
+            IAeFactory pAeFactory = new PersonalGeoDatabase(personDatabase);
             IFeatureClass pFeatureClass = pAeFactory.OpenFeatureClasss(selectFeature);
             try
             {
@@ -92,28 +93,28 @@ namespace TDQQ.Process
                 var fieldName = pFeatureClass.Fields.Field[i].Name.Trim().ToLower();
                 if (fieldName != "objectid" && fieldName != "shape" && fieldName != "shape_length" &&
                     fieldName != "shape_area" && fieldName != "cbfmc" && fieldName != "dkmc"
-                    && fieldName != "yhtmj" && fieldName!="bl"&&fieldName!="clipt")
+                    && fieldName != "yhtmj" && fieldName != "bl" && fieldName != "clipt")
                     toDeleteFields.Add(pFeatureClass.Fields.Field[i]);
             }
             return toDeleteFields;
         }
 
-        private bool AddFields(string personDatabase,string selectFeature)
+        private bool AddFields(string personDatabase, string selectFeature)
         {
             try
             {
                 IAeFactory pAeFactory = new PersonalGeoDatabase(personDatabase);
                 var toAddFields = GetToAddFields();
                 foreach (var tdqqField in toAddFields)
-                {  
-                    pAeFactory.AddField(selectFeature, tdqqField.FieldName, tdqqField.Length, tdqqField.FieldType);                
+                {
+                    pAeFactory.AddField(selectFeature, tdqqField.FieldName, tdqqField.Length, tdqqField.FieldType);
                 }
                 return true;
             }
             catch (Exception)
             {
                 return false;
-            }          
+            }
         }
         /// <summary>
         /// 获取到添加的字段集合
@@ -123,7 +124,7 @@ namespace TDQQ.Process
         {
             //string 类型的
             List<TdqqField> listFields = new List<TdqqField>();
-            
+
             listFields.Add(new TdqqField(esriFieldType.esriFieldTypeString, "DKBM", 19));
             listFields.Add(new TdqqField(esriFieldType.esriFieldTypeString, "DKMC", 50));
             listFields.Add(new TdqqField(esriFieldType.esriFieldTypeString, "DKDZ", 50));
@@ -163,25 +164,25 @@ namespace TDQQ.Process
                 MessageBox.MessageWarning.Show("系统提示", "部分字段尚未添加");
                 return false;
             }
-            WinSetFieldsValue winSetFieldsValue=new WinSetFieldsValue();
-            
+            WinSetFieldsValue winSetFieldsValue = new WinSetFieldsValue();
+
             if (winSetFieldsValue.ShowDialog() == true)
             {
-                
-                Wait wait=new Wait();
+
+                Wait wait = new Wait();
                 wait.SetInfoInvoke("正在设置默认值");
                 wait.SetProgressInfo(string.Empty);
-                Hashtable para=new Hashtable();
+                Hashtable para = new Hashtable();
                 para["wait"] = wait;
                 para["winSetFieldValue"] = winSetFieldsValue;
                 para["ret"] = false;
                 para["personDatabase"] = personDatabase;
                 para["selectFeature"] = selectFeature;
-                Thread t=new Thread(new ParameterizedThreadStart(SetDefaultValue));
+                Thread t = new Thread(new ParameterizedThreadStart(SetDefaultValue));
                 t.Start(para);
                 wait.ShowDialog();
                 t.Abort();
-                return (bool) para["ret"];
+                return (bool)para["ret"];
             }
             return false;
         }
@@ -215,20 +216,20 @@ namespace TDQQ.Process
             int currentIndex = 0;
             while (pFeature != null)
             {
-                wait.SetProgressInfo(((double)currentIndex++/(double)total).ToString("P"));
-                pFeature.set_Value(pFeatureClass.FindField("FBFBM"),winSetFieldsValue.Fbfbm);
+                wait.SetProgressInfo(((double)currentIndex++ / (double)total).ToString("P"));
+                pFeature.set_Value(pFeatureClass.FindField("FBFBM"), winSetFieldsValue.Fbfbm);
                 pFeature.set_Value(pFeatureClass.FindField("ZJRXM"), winSetFieldsValue.Zjrxm);
                 pFeature.set_Value(pFeatureClass.FindField("TDLYLX"), winSetFieldsValue.Tdlylx);
                 pFeature.set_Value(pFeatureClass.FindField("CBJYQQDFS"), winSetFieldsValue.Cbjyqqdfs);
                 pFeature.set_Value(pFeatureClass.FindField("SYQXZ"), winSetFieldsValue.Syqxz);
                 pFeature.set_Value(pFeatureClass.FindField("TDYT"), winSetFieldsValue.Tdyt);
-                pFeature.set_Value(pFeatureClass.FindField("DLDJ"),winSetFieldsValue.Dldj);
+                pFeature.set_Value(pFeatureClass.FindField("DLDJ"), winSetFieldsValue.Dldj);
                 pFeature.set_Value(pFeatureClass.FindField("SFJBNT"), winSetFieldsValue.Sfjbnt);
                 pFeature.set_Value(pFeatureClass.FindField("DKLB"), winSetFieldsValue.Dklb);
                 pFeature.set_Value(pFeatureClass.FindField("DLDJ"), winSetFieldsValue.Dldj);
-             //   pFeature.set_Value(pFeatureClass.FindField("DKBM"), winSetFieldsValue.Fbfbm+currentIndex.ToString("00000"));
-                var scmj = Convert.ToDouble(pFeature.get_Value(FindShapeAreIndex(pFeatureClass)).ToString())/666.6;
-                pFeature.set_Value(pFeatureClass.FindField("SCMJ"), scmj);
+                // pFeature.set_Value(pFeatureClass.FindField("DKBM"), winSetFieldsValue.Fbfbm+currentIndex.ToString("00000"));
+                //var scmj = Convert.ToDouble(pFeature.get_Value(FindShapeAreIndex(pFeatureClass)).ToString())/666.6;
+                //pFeature.set_Value(pFeatureClass.FindField("SCMJ"), scmj);
                 pFeature.Store();
                 pFeature = pFeatureCursor.NextFeature();
             }
@@ -268,8 +269,8 @@ namespace TDQQ.Process
                 "TDLYLX", "CBJYQQDFS",
                 "HTMJ", "SCMJ",
                 "BSM", "DKDZ",
-                "DKNZ", "DKXZ", 
-                "DKBZ","DKBM");
+                "DKNZ", "DKXZ",
+                "DKBZ", "DKBM");
         }
 
         private Dictionary<string, int> GetFieldIndex(IFeatureClass pFeatureClass)
@@ -323,7 +324,7 @@ namespace TDQQ.Process
         #region 提取四至
         public bool GetSurround(string personDatabase, string selectFeature)
         {
-            if (!Check.ValidCheck.FieldExistCheck(personDatabase,selectFeature,"CBFMC","DKDZ","DKNZ","DKBZ","DKXZ"))
+            if (!Check.ValidCheck.FieldExistCheck(personDatabase, selectFeature, "CBFMC", "DKDZ", "DKNZ", "DKBZ", "DKXZ"))
             {
                 MessageBox.MessageWarning.Show("系统提示", "尚未添加部分字段");
                 return false;
@@ -346,7 +347,7 @@ namespace TDQQ.Process
                 wait.ShowDialog();
                 t.Abort();
                 return (bool)para["ret"];
-              
+
             }
             return false;
         }
@@ -538,7 +539,7 @@ namespace TDQQ.Process
         #region 提取承包方编码
         public bool UnpdateCbfbm(string personDatabase, string selectFeature, string basicDatabase)
         {
-            if (!Check.ValidCheck.FieldExistCheck(personDatabase,selectFeature,"CBFMC","CBFBM"))
+            if (!Check.ValidCheck.FieldExistCheck(personDatabase, selectFeature, "CBFMC", "CBFBM"))
             {
                 MessageBox.MessageWarning.Show("系统提示", "尚不存在CBFBM和CBFMC字段");
                 return false;
@@ -557,7 +558,7 @@ namespace TDQQ.Process
             t.Start(para);
             wait.ShowDialog();
             t.Abort();
-            return (bool) para["ret"];
+            return (bool)para["ret"];
         }
 
         private void UpdateCbfbm(object p)
@@ -599,7 +600,7 @@ namespace TDQQ.Process
                 while (pFeature != null)
                 {
                     wait.SetProgressInfo(((double)currentIndex++ / (double)total).ToString("p"));
-                    var cbfmc = pFeature.get_Value(cbfmcIndex).ToString();
+                    var cbfmc = pFeature.get_Value(cbfmcIndex).ToString().Trim();
                     if (errorCbfmcDictionary.ContainsKey(cbfmc))
                     {
                         string errorCbfbm;
@@ -644,17 +645,17 @@ namespace TDQQ.Process
             }
             else
             {
-                return dt.Rows[0][0].ToString();
+                return dt.Rows[0][0].ToString().Trim();
             }
         }
 
         private bool ValidCheck(string personDatabase, string selectFeaure)
         {
-            IAeFactory pAeFactory=new PersonalGeoDatabase(personDatabase);
+            IAeFactory pAeFactory = new PersonalGeoDatabase(personDatabase);
             IFeatureClass pFeatureClass = pAeFactory.OpenFeatureClasss(selectFeaure);
             if (pFeatureClass.Fields.FindField("CBFMC") == -1 || pFeatureClass.Fields.FindField("CBFBM") == -1)
             {
-               pAeFactory.ReleaseFeautureClass(pFeatureClass);
+                pAeFactory.ReleaseFeautureClass(pFeatureClass);
                 return false;
             }
             pAeFactory.ReleaseFeautureClass(pFeatureClass);
@@ -666,27 +667,27 @@ namespace TDQQ.Process
 
         public bool SetHtmj(string personDatabase, string selectFeauture)
         {
-            if (!Check.ValidCheck.FieldExistCheck(personDatabase,selectFeauture,"HTMJ"))
+            if (!Check.ValidCheck.FieldExistCheck(personDatabase, selectFeauture, "HTMJ"))
             {
                 MessageBox.MessageWarning.Show("系统提示", "不存在HTMJ字段");
                 return false;
             }
             bool choice = true;
-            if(!SetHtmjChoice(personDatabase,selectFeauture,ref choice))return false;
-            Wait wait=new Wait();
+            if (!SetHtmjChoice(personDatabase, selectFeauture, ref choice)) return false;
+            Wait wait = new Wait();
             wait.SetInfoInvoke("正在设置合同面积");
             wait.SetProgressInfo(string.Empty);
-            Hashtable para=new Hashtable();
+            Hashtable para = new Hashtable();
             para["wait"] = wait;
             para["personDatabase"] = personDatabase;
             para["selectFeauture"] = selectFeauture;
             para["choice"] = choice;
             para["ret"] = false;
-            Thread t=new Thread(new ParameterizedThreadStart(SetHtmj));
+            Thread t = new Thread(new ParameterizedThreadStart(SetHtmj));
             t.Start(para);
             wait.ShowDialog();
             t.Abort();
-            return (bool) para["ret"];
+            return (bool)para["ret"];
         }
 
         private void SetHtmj(object p)
@@ -749,9 +750,9 @@ namespace TDQQ.Process
                 para["ret"] = false;
                 return;
             }
-           
+
         }
-        private bool SetHtmjChoice(string personDatabase, string selectFeauture,ref bool choice)
+        private bool SetHtmjChoice(string personDatabase, string selectFeauture, ref bool choice)
         {
             if (MessageBox.MessageQuestion.Show("系统询问", "是否将原合同面积设置为合同面积？") == true)
             {
@@ -760,13 +761,13 @@ namespace TDQQ.Process
                     MessageBox.MessageWarning.Show("系统提示", "不存在YHTMJ字段");
                     return false;
                 }
-                
+
                 //if (!CheckHtmj(personDatabase, selectFeauture))
                 //{
                 //    MessageBox.MessageWarning.Show("系统提示", "不存在HTMJ字段");
                 //    return false;
                 //}
-                 
+
                 choice = true;
             }
             else
@@ -806,46 +807,46 @@ namespace TDQQ.Process
                 return false;
             }
             pAeFactory.ReleaseFeautureClass(pFeatureClass);
-            return true;     
+            return true;
         }
         #endregion
 
         #region 替换承包名称
 
-        public bool ReplaceCbfmc(string personDatabase,string selectFeaure)
+        public bool ReplaceCbfmc(string personDatabase, string selectFeaure)
         {
-            if (!Check.ValidCheck.FieldExistCheck(personDatabase,selectFeaure,"CBFMC"))
+            if (!Check.ValidCheck.FieldExistCheck(personDatabase, selectFeaure, "CBFMC"))
             {
                 MessageBox.MessageWarning.Show("系统提示", "不存在CBFMC字段");
                 return false;
             }
-            WinReplce winReplce=new WinReplce();
-            if (winReplce.ShowDialog()==true)
+            WinReplce winReplce = new WinReplce();
+            if (winReplce.ShowDialog() == true)
             {
-                Wait wait=new Wait();
+                Wait wait = new Wait();
                 wait.SetInfoInvoke("正在替换名称");
                 wait.SetProgressInfo(string.Empty);
-                Hashtable para=new Hashtable();
+                Hashtable para = new Hashtable();
                 para["personDatabase"] = personDatabase;
                 para["selectFeaure"] = selectFeaure;
                 para["wait"] = wait;
                 para["winReplce"] = winReplce;
                 para["ret"] = false;
-                Thread t=new Thread(new ParameterizedThreadStart(ReplaceCbfmc));
+                Thread t = new Thread(new ParameterizedThreadStart(ReplaceCbfmc));
                 t.Start(para);
                 wait.ShowDialog();
                 t.Abort();
-                return (bool) para["ret"];
+                return (bool)para["ret"];
             }
             return false;
         }
 
         private void ReplaceCbfmc(object p)
         {
-           
+
             Hashtable para = p as Hashtable;
             Wait wait = para["wait"] as Wait;
-            
+
             WinReplce winReplce = para["winReplce"] as WinReplce;
             IAeFactory aeFactory = new PersonalGeoDatabase(para["personDatabase"].ToString());
             IFeatureClass pFeatureClass = aeFactory.OpenFeatureClasss(para["selectFeaure"].ToString());
@@ -871,8 +872,8 @@ namespace TDQQ.Process
                 int count = 0;
                 while ((pFeature = pCursor.NextFeature()) != null)
                 {
-                    wait.SetProgressInfo(((double) currentIndex++/(double) total).ToString("P"));
-                    string cbfmc = pFeature.get_Value(cbfmcIndex).ToString();
+                    wait.SetProgressInfo(((double)currentIndex++ / (double)total).ToString("P"));
+                    string cbfmc = pFeature.get_Value(cbfmcIndex).ToString().Trim();
                     if (cbfmc == winReplce.OriginCbfmc)
                     {
                         pFeature.set_Value(cbfmcIndex, winReplce.NewCbfmc);
@@ -881,7 +882,7 @@ namespace TDQQ.Process
                     }
                 }
                 stringBuilder.Append(count.ToString());
-                CommonHelper.WriteErrorInfo(AppDomain.CurrentDomain.BaseDirectory + @"\Log\logfile.txt",stringBuilder.ToString());
+                CommonHelper.WriteErrorInfo(AppDomain.CurrentDomain.BaseDirectory + @"\Log\logfile.txt", stringBuilder.ToString());
                 Marshal.ReleaseComObject(pCursor);
                 pWorkspaceEdit.StopEditOperation();
                 pWorkspaceEdit.StopEditing(true);
@@ -902,25 +903,25 @@ namespace TDQQ.Process
 
         public bool ChangeNotCbfmc(string personDatabase, string selectFeature, string baiscDatabase)
         {
-            if (!AeHelper.CheckField(personDatabase,selectFeature,"CBFMC"))
+            if (!AeHelper.CheckField(personDatabase, selectFeature, "CBFMC"))
             {
                 MessageBox.MessageWarning.Show("系统提示", "不存在CBFMC字段");
                 return false;
             }
-            Wait wait=new Wait();
+            Wait wait = new Wait();
             wait.SetInfoInvoke("正在处理非承包方名称");
             wait.SetProgressInfo(string.Empty);
-            Hashtable para=new Hashtable();
+            Hashtable para = new Hashtable();
             para["wait"] = wait;
             para["personDatabase"] = personDatabase;
             para["selectFeature"] = selectFeature;
             para["baiscDatabase"] = baiscDatabase;
             para["ret"] = false;
-            Thread t=new Thread(new ParameterizedThreadStart(ChangeNotCbfmc));
+            Thread t = new Thread(new ParameterizedThreadStart(ChangeNotCbfmc));
             t.Start(para);
             wait.ShowDialog();
             t.Abort();
-            return (bool) para["ret"];
+            return (bool)para["ret"];
 
         }
 
@@ -944,9 +945,9 @@ namespace TDQQ.Process
                 for (int i = 0; i < rowCount; i++)
                 {
                     wait.SetProgressInfo(((double)currentIndex++ / (double)rowCount).ToString("P"));
-                    var cbfmc = GetHzFromXm(dt.Rows[i][0].ToString(), para["baiscDatabase"].ToString());
+                    var cbfmc = GetHzFromXm(dt.Rows[i][0].ToString().Trim(), para["baiscDatabase"].ToString());
                     if (string.IsNullOrEmpty(cbfmc)) continue;
-                    UpDateNotCbfmc(dt.Rows[i][1].ToString(), cbfmc, para["personDatabase"].ToString(),
+                    UpDateNotCbfmc(dt.Rows[i][1].ToString().Trim(), cbfmc, para["personDatabase"].ToString(),
                         para["selectFeature"].ToString());
                     stringBuilder.Append(cbfmc + "\r\n");
                 }
@@ -976,7 +977,7 @@ namespace TDQQ.Process
             var sqlString = string.Format("select CBFMC from {0} where CYXM='{1}'", "CBF_JTCY", notCbfmc);
             var dt = accessFactory.Query(sqlString);
             if (dt == null || dt.Rows.Count != 1) return string.Empty;
-            return dt.Rows[0][0].ToString();
+            return dt.Rows[0][0].ToString().Trim();
         }
         private void UpDateNotCbfmc(string dkbm, string cbfmc, string personDatbase, string selectFeaure)
         {
@@ -989,50 +990,50 @@ namespace TDQQ.Process
 
         #region 地块编码
 
-        public bool SortDkbm(string personDatabase,string selectFeaure)
+        private bool SortDkbm(string personDatabase, string selectFeaure)
         {
-            if (!Check.ValidCheck.FieldExistCheck(personDatabase,selectFeaure,"DKBM"))
+            if (!Check.ValidCheck.FieldExistCheck(personDatabase, selectFeaure, "DKBM"))
             {
                 MessageBox.MessageWarning.Show("系统提示", "不存在地块编码字段");
                 return false;
             }
-                // throw new NotImplementedException();
-                IAeFactory pAeFactory = new PersonalGeoDatabase(personDatabase);
-                IFeatureClass pFeatureClass = pAeFactory.OpenFeatureClasss(selectFeaure);
-                var dks = GetDks(pFeatureClass);
-                var sortdks = dks.OrderBy(feaure => feaure.Ycor);
-                var first = sortdks.First();
-                var last = sortdks.Last();
-                WinDkbm winDkbm = new WinDkbm(last.Ycor - first.Ycor);
-                pAeFactory.ReleaseFeautureClass(pFeatureClass);
-                if (winDkbm.ShowDialog() == true)
-                {
-                    Wait wait = new Wait();
-                    wait.SetInfoInvoke("正在对地块进行编码");
-                    wait.SetProgressInfo("预处理中");
-                    Hashtable para = new Hashtable();
-                    para["wait"] = wait;
-                    para["personDatabase"] = personDatabase;
-                    para["selectFeature"] = selectFeaure;
-                    para["gap"] = winDkbm.Gap;
-                    para["fbfbm"] = winDkbm.Fbfbm;
-                    // para["sortdks"] = sortdks;
-                    para["yMax"] = last.Ycor;
-                    para["yMin"] = first.Ycor;
-                    para["ret"] = false;
-                    Thread t = new Thread(new ParameterizedThreadStart(SorkDkbm));
-                    t.Start(para);
-                    wait.ShowDialog();
-                    t.Abort();
-                    return (bool)para["ret"];
-                }
-                else
-                {
-                    return false;
-                }
-                
-          
-           
+            // throw new NotImplementedException();
+            IAeFactory pAeFactory = new PersonalGeoDatabase(personDatabase);
+            IFeatureClass pFeatureClass = pAeFactory.OpenFeatureClasss(selectFeaure);
+            var dks = GetDks(pFeatureClass);
+            var sortdks = dks.OrderBy(feaure => feaure.Ycor);
+            var first = sortdks.First();
+            var last = sortdks.Last();
+            WinDkbm winDkbm = new WinDkbm(last.Ycor - first.Ycor);
+            pAeFactory.ReleaseFeautureClass(pFeatureClass);
+            if (winDkbm.ShowDialog() == true)
+            {
+                Wait wait = new Wait();
+                wait.SetInfoInvoke("正在对地块进行编码");
+                wait.SetProgressInfo("预处理中");
+                Hashtable para = new Hashtable();
+                para["wait"] = wait;
+                para["personDatabase"] = personDatabase;
+                para["selectFeature"] = selectFeaure;
+                para["gap"] = winDkbm.Gap;
+                para["fbfbm"] = winDkbm.Fbfbm;
+                // para["sortdks"] = sortdks;
+                para["yMax"] = last.Ycor;
+                para["yMin"] = first.Ycor;
+                para["ret"] = false;
+                Thread t = new Thread(new ParameterizedThreadStart(SorkDkbm));
+                t.Start(para);
+                wait.ShowDialog();
+                t.Abort();
+                return (bool)para["ret"];
+            }
+            else
+            {
+                return false;
+            }
+
+
+
         }
 
         private void SorkDkbm(object p)
@@ -1041,12 +1042,12 @@ namespace TDQQ.Process
             Wait wait = para["wait"] as Wait;
             try
             {
-               // var sortDks = para["sortdks"] as IEnumerable<SortEnity<object>>;
+                // var sortDks = para["sortdks"] as IEnumerable<SortEnity<object>>;
                 var gap = (double)para["gap"];
                 var fbfbm = para["fbfbm"].ToString();
                 var total = GetFeatureCount(para["personDatabase"].ToString(), para["selectFeature"].ToString());
-                var yMax = (double) para["yMax"];
-                var yMin = (double) para["yMin"];
+                var yMax = (double)para["yMax"];
+                var yMin = (double)para["yMin"];
                 var currentTop = yMax + 10;
                 var currentButton = currentTop - gap;
                 int currentIndex = 0;
@@ -1077,11 +1078,11 @@ namespace TDQQ.Process
 
         }
 
-        private IEnumerable<SortEnity<object>> GetYDks(IEnumerable<SortEnity<object>> dks,double top,double butttom)
+        private IEnumerable<SortEnity<object>> GetYDks(IEnumerable<SortEnity<object>> dks, double top, double butttom)
         {
             foreach (var sortEnity in dks)
             {
-                if (sortEnity.Ycor < top&&sortEnity.Ycor>=butttom)
+                if (sortEnity.Ycor < top && sortEnity.Ycor >= butttom)
                 {
                     yield return sortEnity;
                 }
@@ -1090,13 +1091,13 @@ namespace TDQQ.Process
         private void SortDkbm(IEnumerable<SortEnity<object>> ySortDks, string fbfbm, ref int current, Wait wait, int total,
             string personDatabase, string selectFeature)
         {
-            AccessFactory accessFactory=new AccessFactory(personDatabase);
+            AccessFactory accessFactory = new AccessFactory(personDatabase);
             var xSortdk = ySortDks.OrderBy(dk => dk.Xcor);
             var sqlString = string.Empty;
             foreach (var sortEnity in xSortdk)
             {
                 current++;
-                wait.SetProgressInfo(((double)current/(double)total).ToString("p"));
+                wait.SetProgressInfo(((double)current / (double)total).ToString("p"));
                 sqlString = string.Format("update {0} set DKBM ='{1}' where OBJECTID = {2} ", selectFeature,
                     fbfbm + current.ToString("00000"), sortEnity.Id);
                 accessFactory.Execute(sqlString);
@@ -1133,11 +1134,163 @@ namespace TDQQ.Process
             catch (Exception e)
             {
                 System.Windows.Forms.MessageBox.Show(e.ToString());
-               return null;
+                return null;
             }
             return dks;
-        } 
+        }
 
+        #endregion
+
+        #region 设置实测面积
+
+        public bool SetScmj(string personDatabase, string selectFeature)
+        {
+            if (!FieldExistCheck(personDatabase, selectFeature))
+            {
+                MessageBox.MessageWarning.Show("系统提示", "部分字段尚未添加");
+                return false;
+            }
+            Wait wait = new Wait();
+            wait.SetInfoInvoke("设置实测面积");
+            wait.SetProgressInfo(string.Empty);
+            Hashtable para = new Hashtable();
+            para["wait"] = wait;
+            para["ret"] = false;
+            para["personDatabase"] = personDatabase;
+            para["selectFeature"] = selectFeature;
+            Thread t = new Thread(new ParameterizedThreadStart(SetScmj));
+            t.Start(para);
+            wait.ShowDialog();
+            t.Abort();
+            return (bool)para["ret"];
+
+        }
+
+        private void SetScmj(object p)
+        {
+            Hashtable para = p as Hashtable;
+            var wait = para["wait"] as Wait;
+            IAeFactory pAeFactory = new PersonalGeoDatabase(para["personDatabase"].ToString());
+            IFeatureClass pFeatureClass = pAeFactory.OpenFeatureClasss(para["selectFeature"].ToString());
+            var pDataset = pFeatureClass as IDataset;
+            if (pDataset == null)
+            {
+                wait.CloseWait();
+                para["ret"] = false;
+                return;
+            }
+            var pWorkspaceEdit = pDataset.Workspace as IWorkspaceEdit;
+            IFeatureCursor pFeatureCursor = pFeatureClass.Search(null, false);
+            if (pWorkspaceEdit == null)
+            {
+                wait.CloseWait();
+                para["ret"] = false;
+                return;
+            }
+            int total = GetFeatureCount(para["personDatabase"].ToString(), para["selectFeature"].ToString());
+            pWorkspaceEdit.StartEditing(true);
+            pWorkspaceEdit.StartEditOperation();
+            IFeature pFeature = pFeatureCursor.NextFeature();
+            int currentIndex = 0;
+            while (pFeature != null)
+            {
+                wait.SetProgressInfo(((double)currentIndex++ / (double)total).ToString("P"));
+                var scmj = Convert.ToDouble(pFeature.get_Value(FindShapeAreIndex(pFeatureClass)).ToString()) / 666.6;
+                pFeature.set_Value(pFeatureClass.FindField("SCMJ"), scmj);
+                pFeature.Store();
+                pFeature = pFeatureCursor.NextFeature();
+            }
+            Marshal.ReleaseComObject(pFeatureCursor);
+            pWorkspaceEdit.StopEditOperation();
+            pWorkspaceEdit.StopEditing(true);
+            wait.CloseWait();
+            para["ret"] = true;
+        }
+        #endregion
+
+        #region 设置地块编码
+
+        public bool SetDkbm(string perosnDatabase, string selectFeature)
+        {
+            if (MessageBox.MessageQuestion.Show("系统提示", "是否采用新的编码方式？") == true)
+            {
+                return SortDkbm(perosnDatabase, selectFeature);
+            }
+            else
+            {
+                return QueueDkbm(perosnDatabase, selectFeature);
+            }
+
+        }
+
+        private bool QueueDkbm(string perosnDatabase, string selectFeature)
+        {
+            if (!Check.ValidCheck.FieldExistCheck(perosnDatabase, selectFeature, "DKBM"))
+            {
+                MessageBox.MessageWarning.Show("系统提示", "不存在地块编码字段");
+                return false;
+            }
+            WinFbfbm winFbfbm = new WinFbfbm();
+            if (winFbfbm.ShowDialog() == true)
+            {
+                Wait wait = new Wait();
+                wait.SetInfoInvoke("正在对地块进行编码");
+                wait.SetProgressInfo(string.Empty);
+                Hashtable para = new Hashtable();
+                para["wait"] = wait;
+                para["personDatabase"] = perosnDatabase;
+                para["selectFeature"] = selectFeature;
+                para["fbfbm"] = winFbfbm.Fbfbm;
+                para["ret"] = false;
+                Thread t = new Thread(new ParameterizedThreadStart(QueueDkbm));
+                t.Start(para);
+                wait.ShowDialog();
+                t.Abort();
+                return (bool)para["ret"];
+            }
+            return false;
+        }
+
+        private void QueueDkbm(object p)
+        {
+            Hashtable para = p as Hashtable;
+            var wait = para["wait"] as Wait;
+            IAeFactory pAeFactory = new PersonalGeoDatabase(para["personDatabase"].ToString());
+            IFeatureClass pFeatureClass = pAeFactory.OpenFeatureClasss(para["selectFeature"].ToString());
+            var pDataset = pFeatureClass as IDataset;
+            if (pDataset == null)
+            {
+                wait.CloseWait();
+                para["ret"] = false;
+                return;
+            }
+            var pWorkspaceEdit = pDataset.Workspace as IWorkspaceEdit;
+            IFeatureCursor pFeatureCursor = pFeatureClass.Search(null, false);
+            if (pWorkspaceEdit == null)
+            {
+                wait.CloseWait();
+                para["ret"] = false;
+                return;
+            }
+            int total = GetFeatureCount(para["personDatabase"].ToString(), para["selectFeature"].ToString());
+            pWorkspaceEdit.StartEditing(true);
+            pWorkspaceEdit.StartEditOperation();
+            IFeature pFeature = pFeatureCursor.NextFeature();
+            int currentIndex = 0;
+            var fbfb = para["fbfbm"].ToString();
+            while (pFeature != null)
+            {
+                wait.SetProgressInfo(((double)currentIndex++ / (double)total).ToString("P"));
+                pFeature.set_Value(pFeatureClass.FindField("DKBM"), fbfb + currentIndex.ToString("00000"));
+                pFeature.Store();
+                pFeature = pFeatureCursor.NextFeature();
+            }
+            Marshal.ReleaseComObject(pFeatureCursor);
+            pWorkspaceEdit.StopEditOperation();
+            pWorkspaceEdit.StopEditing(true);
+            wait.CloseWait();
+            para["ret"] = true;
+        }
         #endregion
 
     }

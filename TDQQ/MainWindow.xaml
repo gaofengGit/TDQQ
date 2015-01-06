@@ -27,7 +27,7 @@
                     <fluent:Button Text="编辑字段" LargeIcon="Image\plus_alt.png" Name="ButtonAddField"/>
                     <fluent:Button Text="设值" LargeIcon="Image\default.png" Name="ButtonDefault"/>
                 </fluent:RibbonGroupBox>
-                <fluent:RibbonGroupBox  Header="提取">                 
+                <fluent:RibbonGroupBox  Header="提取">
                     <fluent:Button Text="提取四至" LargeIcon="Image\milestone.png"  Name="ButtonBoundary"/>
                     <fluent:Button Text="提取界址点" LargeIcon="Image\plotchart.png" Name="ButtonJzd"/>
                     <fluent:Button Text="提取界址线" LargeIcon="Image\screen.png"  Name="ButtonJzx"/>
@@ -35,6 +35,7 @@
                 </fluent:RibbonGroupBox>
                 <fluent:RibbonGroupBox Header="更新">
                     <fluent:Button Text="设置合同面积" LargeIcon="Image\contractmj.png"  Name="ButtonSetHtmj"/>
+                    <fluent:Button Text="设置实测面积" LargeIcon="Image\contractmj.png"  Name="ButtonSetScmj"/>
                     <fluent:Button Text="更新承包方编码" LargeIcon="Image\refresh.png"  Name="ButtonUpdateCbfbm"/>
                     <fluent:Button Text="替换承包方名称" LargeIcon="Image\replace.png"  Name="ButtonUpdateCbfmc"/>
                     <fluent:Button Text="纠错" LargeIcon="Image\check.png"  Name="ButtonChangeCbfmc"/>

@@ -10,11 +10,11 @@ none
 false
 DEBUG;TRACE
 H:\TDQQ\TDQQ\App.xaml
-19-1611287060
+20-1741296047
 
-57-1601068985
+58-1997569386
 35-191159288
-MainWindow.xaml;MessageBox\MessageInfomation.xaml;MessageBox\MessageQuestion.xaml;MessageBox\MessageWarning.xaml;MyWindow\UserWait.xaml;MyWindow\Wait.xaml;MyWindow\WinBuffer.xaml;MyWindow\WinCbfbm.xaml;MyWindow\WinDkbm.xaml;MyWindow\WinFarmerInfo.xaml;MyWindow\WinFbfInfo.xaml;MyWindow\WinFieldsInfo.xaml;MyWindow\WinJyz.xaml;MyWindow\WinLicense.xaml;MyWindow\WinMultiFieldInfo.xaml;MyWindow\WinPointEdit.xaml;MyWindow\WinReplce.xaml;MyWindow\WinSelectFeature.xaml;MyWindow\WinSetFieldsValue.xaml;
+MainWindow.xaml;MessageBox\MessageInfomation.xaml;MessageBox\MessageQuestion.xaml;MessageBox\MessageWarning.xaml;MyWindow\UserWait.xaml;MyWindow\Wait.xaml;MyWindow\WinBuffer.xaml;MyWindow\WinCbfbm.xaml;MyWindow\WinDkbm.xaml;MyWindow\WinFarmerInfo.xaml;MyWindow\WinFbfbm.xaml;MyWindow\WinFbfInfo.xaml;MyWindow\WinFieldsInfo.xaml;MyWindow\WinJyz.xaml;MyWindow\WinLicense.xaml;MyWindow\WinMultiFieldInfo.xaml;MyWindow\WinPointEdit.xaml;MyWindow\WinReplce.xaml;MyWindow\WinSelectFeature.xaml;MyWindow\WinSetFieldsValue.xaml;
 image\未标题-1.jpg
-True
+False
 
